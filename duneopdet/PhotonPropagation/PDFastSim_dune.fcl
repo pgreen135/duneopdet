@@ -65,7 +65,7 @@ dunefd_pdfastsim:                              @local::dunefd_pdfastsim_par_ar
 # DUNE HD 10kt 1x2x6 #
 ###########
 
-# Parameterisations currently identical for 1x2x6, except not using vertical border correction mode
+# Parameterisations identical as 10kt, except not using vertical border correction mode
 # Require different optical path tool, using standard tool rather than custom dune 10kt one
 
 # Hits & Timing parameterization for DUNE HD 1x2x6, Ar scintillation
@@ -103,13 +103,15 @@ dunefd_1x2x6_pdfastsim:                              @local::dunefd_1x2x6_pdfast
 
 
 ###########
-# DUNE VD #
+# DUNE VD 10kt #
 ###########
 
 # Hits & Timing parameterization for DUNE VD, Ar scintillation
 dunevd_pdfastsim_par_ar:                       @local::standard_pdfastsim_par_ar
 dunevd_pdfastsim_par_ar.VUVTiming:             @local::dunevd_vuv_timing_parameterization
 dunevd_pdfastsim_par_ar.VUVHits:               @local::dunevd_vuv_Argon_hits_parameterization
+dunevd_pdfastsim_par_ar.VUVHits.VerticalBorderCorrectionMode: true
+dunevd_pdfastsim_par_ar.OpticalPathTool:       @local::DUNEVD10ktOpticalPath
 dunevd_pdfastsim_par_ar.OnlyActiveVolume:      true
 
 # As above, but fast-only scintillation for high Xe concentration
@@ -120,8 +122,10 @@ dunevd_pdfastsim_par_ar_fastonly.DoSlowComponent: false
 dunevd_pdfastsim_par_xe:                       @local::standard_pdfastsim_par_ar
 dunevd_pdfastsim_par_xe.DoFastComponent:       false          # Only slow Xe light
 dunevd_pdfastsim_par_xe.VUVHits:               @local::dunevd_vuv_Xenon_hits_parameterization
-# dunevd_pdfastsim_par_xe.VISHits:               @local::dunevd_vuv_Xenon_anode_hits_parameteriszation
-dunevd_pdfastsim_par_xe.IncludeAnodeReflections: false		  # include Xenon light reflections from anode
+dunevd_pdfastsim_par_xe.VUVHits.VerticalBorderCorrectionMode: true
+#dunevd_pdfastsim_par_xe.VISHits:               @local::dunevd_vuv_Xenon_anode_hits_parameteriszation
+dunevd_pdfastsim_par_xe.IncludeAnodeReflections: false           # Xenon light reflections from anode no longer in use
+dunevd_pdfastsim_par_xe.OpticalPathTool:       @local::DUNEVD10ktOpticalPath
 dunevd_pdfastsim_par_xe.IncludePropTime:       true          
 dunevd_pdfastsim_par_xe.GeoPropTimeOnly:       true			  # Xe propoagation time geometric approximation
 dunevd_pdfastsim_par_xe.VUVTiming:             @local::dunevd_xe_timing_geo
@@ -129,7 +133,29 @@ dunevd_pdfastsim_par_xe.ScintTimeTool:         @local::ScintTimeXeDoping10ppm
 dunevd_pdfastsim_par_xe.OnlyActiveVolume:      true
 dunevd_pdfastsim_par_xe.UseXeAbsorption:       true
 
-# External region for laterals (Hybrid model)
+###########
+# DUNE VD 1x8x14 #
+###########
+
+# Parameterisations identical as 10kt, except not using vertical border correction mode
+# Require different optical path tool, using standard tool rather than custom dune 10kt one
+
+# Hits & Timing parameterization for DUNE VD 1x4x14, Ar scintillation
+dunevd_1x8x14_pdfastsim_par_ar:                       @local::dunevd_pdfastsim_par_ar
+dunevd_1x8x14_pdfastsim_par_ar.OpticalPathTool:       @local::StandardOpticalPath
+dunevd_1x8x14_pdfastsim_par_ar.VUVHits.VerticalBorderCorrectionMode: false
+
+# As above, but fast-only scintillation for high Xe concentration
+dunevd_1x8x14_pdfastsim_par_ar_fastonly:                       @local::dunevd_pdfastsim_par_ar_fastonly
+dunevd_1x8x14_pdfastsim_par_ar_fastonly.OpticalPathTool:       @local::StandardOpticalPath
+dunevd_1x8x14_pdfastsim_par_ar_fastonly.VUVHits.VerticalBorderCorrectionMode: false
+
+# Hits parameterization for DUNE VD 1x8x14, Xe scintillation, 10ppm
+dunevd_1x8x14_pdfastsim_par_xe:                      @local::dunevd_pdfastsim_par_xe
+dunevd_1x8x14_pdfastsim_par_xe.OpticalPathTool:       @local::StandardOpticalPath
+dunevd_1x8x14_pdfastsim_par_xe.VUVHits.VerticalBorderCorrectionMode: false
+
+# External region for laterals (Hybrid model) -- what to do with this?
 # Temporarily keeping this service for VD coldbox
 # Not available
 #dunevd_pdfastsim_pvs_external: 			  @local::standard_pdfastsim_pvs
